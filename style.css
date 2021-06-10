@@ -4,10 +4,14 @@
   margin: 0;
 }
 .parent{
-  height: 350px;
+  height: 450px;
   max-width: 550px;
   margin: 10px auto auto;
   overflow: auto;
+  box-shadow: 0px 2px 4px #694498;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
 }
 
 .card {   
@@ -68,7 +72,7 @@
 display: none;
 }
 .load.visible{
-  display: block;
+  display: flex;
 }
 input[type='submit']{
   cursor: pointer;

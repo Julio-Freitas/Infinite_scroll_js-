@@ -66,8 +66,8 @@ const showLoadPage = () => {
   }
 }
 
-container.addEventListener('scroll', e=> {
-  const { clientHeight, scrollTop, scrollHeight } = e.target
+container.addEventListener('scroll',  ({ target })=> {
+  const { clientHeight, scrollTop, scrollHeight } = target
   const currentScrollHeight = scrollTop + clientHeight;
   const isArrirevInTheEnd = currentScrollHeight > scrollHeight - 15;
 

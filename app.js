@@ -4,22 +4,16 @@ const container = document.querySelector('.parent');
 const loadCOntainer  = document.querySelector('.load');
 let page = 1;
 
-const addListInDOm = async (search) => {
+const addListInDOm = async () => {
   const cardList = document.querySelector('.card');
   const list = await api.allList(page);
-  const newList = !!search ?  list.filter(item => item.title.includes(search)) : list;
-
-  if(search) {
-     cardList.innerHTML = resultSearch(newList);
-  }
-  cardList.innerHTML += resultSearch(newList);
-  
-  return newList
+  cardList.innerHTML += resultSearch(list);  
+  return list
 }
 
 const resultSearch = list => list.map(({title, id})=> (`
-            <div class="item">
-              <label>Title:${title}</label>
+            <div class="item" data-post>
+              <label class="post-title" data-post-id="${id}">${title}</label>
               <label class="ball" data-content="${id}"></label>
             </div>   
     `)).join('');
@@ -27,8 +21,23 @@ const resultSearch = list => list.map(({title, id})=> (`
 button.addEventListener('click', evt => {
   evt.preventDefault();
   const search = document.querySelector('[name=search]').value; 
-   addListInDOm(search);
+   searchPost(search);
 });
+
+const searchPost  = (value) => {
+  const posts = Array.from(document.querySelectorAll('[data-post]'));
+  const newValue = value.toLocaleLowerCase()
+  posts.forEach(post => {
+    const title = post.querySelector('.post-title').textContent.toLocaleLowerCase();
+    if(title.includes(newValue)) {
+       post.style.display = 'flex';
+       return
+    }
+    post.style.display = 'none';
+   
+  })
+
+}
 
 
 const showLoad = () => {
@@ -70,8 +79,7 @@ container.addEventListener('scroll',  ({ target })=> {
   const { clientHeight, scrollTop, scrollHeight } = target
   const currentScrollHeight = scrollTop + clientHeight;
   const isArrirevInTheEnd = currentScrollHeight > scrollHeight - 10;
-  if(isArrirevInTheEnd) showLoadPage();
-  
+  if(isArrirevInTheEnd) showLoadPage();  
 });
 
 addListInDOm();
